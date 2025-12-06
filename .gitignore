@@ -114,7 +114,6 @@ dmypy.json
 .pyre/
 
 # IDEs
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -135,3 +134,4 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+.gitignore
