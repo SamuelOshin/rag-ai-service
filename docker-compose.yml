@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # FastAPI Application
+  backend:
+    build: .
+    container_name: rag_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/rag_db
+      - CHROMA_HOST=chroma
+      - CHROMA_PORT=8000
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY} # Read from host .env
+    depends_on:
+      - db
+      - chroma
+    volumes:
+      - .:/app # Sync code for live reloading
+
+  # PostgreSQL for Metadata
+  db:
+    image: postgres:15-alpine
+    container_name: rag_postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=rag_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ChromaDB for Vectors
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: rag_chroma
+    ports:
+      - "8001:8000" # Exposed on host 8001 to avoid conflict with API
+    volumes:
+      - chroma_data:/chroma/chroma
+
+volumes:
+  postgres_data:
+  chroma_data:
