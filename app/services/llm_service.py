@@ -5,15 +5,13 @@ import httpx
 settings = get_settings()
 
 class OpenRouterService:
-    """
-    Handles all interactions with the LLM provider (OpenRouter).
-    Uses the standard OpenAI SDK which is compatible with OpenRouter.
-    """
+    """Handles all interactions with the LLM provider via OpenRouter."""
+
     def __init__(self):
+        """Initializes the OpenAI client with OpenRouter configuration."""
         self.client = AsyncOpenAI(
             api_key=settings.OPENROUTER_API_KEY,
             base_url=settings.OPENROUTER_BASE_URL,
-            # OpenRouter specific headers
             default_headers={
                 "HTTP-Referer": "https://localhost:8000", 
                 "X-Title": settings.PROJECT_NAME, 
@@ -21,11 +19,23 @@ class OpenRouterService:
         )
 
     async def get_embedding(self, text: str) -> list[float]:
-        """
-        Generates vector embeddings for a given text.
+        """Generates vector embeddings for the given text.
+
+        Args:
+            text (str): The text to embed.
+
+        Returns:
+            list[float]: The embedding vector.
+
+        Raises:
+            Exception: If embedding generation fails.
+
+        Examples:
+            >>> emb = await service.get_embedding("Hello world")
+            >>> len(emb) > 0
+            True
         """
         try:
-            # Note: Ensure the model selected in config supports embeddings
             response = await self.client.embeddings.create(
                 model=settings.EMBEDDING_MODEL,
                 input=text
@@ -36,8 +46,22 @@ class OpenRouterService:
             raise e
 
     async def generate_answer(self, context: str, question: str) -> str:
-        """
-        Generates a RAG response based on context and user question.
+        """Generates a RAG response based on context and question.
+
+        Args:
+            context (str): Retrieved context from documents.
+            question (str): User's question.
+
+        Returns:
+            str: Generated answer.
+
+        Raises:
+            Exception: If answer generation fails.
+
+        Examples:
+            >>> answer = await service.generate_answer("Context text", "What is AI?")
+            >>> isinstance(answer, str)
+            True
         """
         system_prompt = (
             "You are an intelligent assistant. "
@@ -53,6 +77,6 @@ class OpenRouterService:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_message}
             ],
-            temperature=0.3  # Lower temperature for more factual answers
+            temperature=0.3
         )
         return response.choices[0].message.content
