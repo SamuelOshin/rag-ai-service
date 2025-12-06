@@ -3,7 +3,7 @@ from sqlmodel import Session, select
 from typing import List
 
 from app.core.database import get_session
-from app.models.models import Document, DocumentResponse, QueryRequest, QueryResponse, ChunkMetadata
+from app.models.db_models import Document, DocumentResponse, QueryRequest, QueryResponse, ChunkMetadata
 from app.services.document_service import DocumentProcessor
 from app.services.llm_service import OpenRouterService
 from app.services.vector_service import VectorDBService
