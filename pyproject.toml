@@ -1,0 +1,37 @@
+[project]
+name = "rag-ai-service"
+version = "0.1.0"
+description = "A RAG AI service using FastAPI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "sqlmodel",
+    "alembic",
+    "pydantic",
+    "python-multipart",
+    "openai",
+    "pinecone-client",
+    "chromadb",
+    "langchain",
+    "python-dotenv",
+    "httpx",
+    "pypdf",
+    "unstructured[pdf]",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.11.0",
+    "isort>=5.12.0",
+    "flake8>=6.1.0",
+]
