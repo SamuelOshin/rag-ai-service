@@ -5,20 +5,16 @@ description = "A RAG AI service using FastAPI"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "fastapi",
-    "uvicorn[standard]",
-    "sqlmodel",
-    "alembic",
-    "pydantic",
-    "python-multipart",
-    "openai",
-    "pinecone-client",
-    "chromadb",
-    "langchain",
-    "python-dotenv",
-    "httpx",
-    "pypdf",
-    "unstructured[pdf]",
+    "fastapi==0.104.1",
+    "uvicorn[standard]==0.24.0",
+    "pydantic-settings==2.1.0",
+    "sqlmodel==0.0.14",
+    "psycopg2-binary==2.9.9",
+    "langchain-text-splitters==0.0.1",
+    "pypdf==4.0.1",
+    "python-docx==1.1.0",
+    "openai==1.3.7",
+    "httpx==0.25.2",
 ]
 
 [build-system]

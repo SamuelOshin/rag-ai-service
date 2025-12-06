@@ -2,6 +2,20 @@ from pydantic_settings import BaseSettings
 from functools import lru_cache
 
 class Settings(BaseSettings):
+    """Application settings loaded from environment variables.
+
+    Attributes:
+        PROJECT_NAME (str): Name of the project.
+        API_V1_STR (str): API version string.
+        DATABASE_URL (str): Database connection URL.
+        CHROMA_HOST (str): Chroma database host.
+        CHROMA_PORT (int): Chroma database port.
+        COLLECTION_NAME (str): Chroma collection name.
+        OPENROUTER_API_KEY (str): API key for OpenRouter.
+        OPENROUTER_BASE_URL (str): Base URL for OpenRouter.
+        EMBEDDING_MODEL (str): Model for embeddings.
+        LLM_MODEL (str): Model for LLM.
+    """
     # App Settings
     PROJECT_NAME: str = "RAG Document Service"
     API_V1_STR: str = "/api/v1"
@@ -27,4 +41,14 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings():
+    """Retrieves cached application settings.
+
+    Returns:
+        Settings: The application settings instance.
+
+    Examples:
+        >>> settings = get_settings()
+        >>> settings.PROJECT_NAME
+        'RAG Document Service'
+    """
     return Settings()
